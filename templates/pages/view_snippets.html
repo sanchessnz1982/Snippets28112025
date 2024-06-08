@@ -33,7 +33,7 @@
                     {% for snippet in snippets  %}    
                         <tr>
                             <td scope="row">{{ snippet.id }}</td>
-                            <td><a href="/snippets/{{ snippet.id }}">{{ snippet.name }}</a></td>
+                            <td><a href="{% url "snippet-detail" snippet.id %}">{{ snippet.name }}</a></td>
                             {# https://docs.djangoproject.com/en/5.0/ref/templates/builtins/#std-templatefilter-date #}
                             <td>{{ snippet.creation_date | date:"Y-m-d H:i:s"}}</td>
                         </tr>

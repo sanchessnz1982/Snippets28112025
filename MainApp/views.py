@@ -1,5 +1,5 @@
 from django.http import Http404, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from MainApp.forms import SnippetForm
 from MainApp.models import Snippet
 from django.core.exceptions import ObjectDoesNotExist
@@ -45,13 +45,14 @@ def snippet_detail(request, snippet_id: int):
         return render(request, "pages/errors.html", context | {"error": f"Snippet with id={snippet_id} not found"})
     else:
         context["snippet"] = snippet
+        context["type"] = "view"
         return render(request, "pages/snippet_detail.html", context)
-    
 
-# def create_snippet(request):
-#     if request.method == "POST":
-#         form = SnippetForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("snippets-list") # GET /snippets/list
-#         return render(request, "pages/add_snippet.html", {'form': form})
+def snippet_edit(request, snippet_id: int):
+    pass    
+
+def snippet_delete(request, snippet_id: int):
+    if request.method == "POST" or request.method == "GET":
+        snippet = get_object_or_404(Snippet, id=snippet_id)
+        snippet.delete()
+    return redirect("snippets-list")

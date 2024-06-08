@@ -27,15 +27,27 @@
                         <th scope="col">ID</th>
                         <th scope="col">Название</th>
                         <th scope="col">Дата создания</th>
+                        <th scope="col">Удалить</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for snippet in snippets  %}    
                         <tr>
                             <td scope="row">{{ snippet.id }}</td>
-                            <td><a href="{% url "snippet-detail" snippet.id %}">{{ snippet.name }}</a></td>
+                            <td><a href="{% url "snippet-detail" snippet.id %}">{{ snippet.name }}</a>
+                                <a href="{% url "snippet-delete" snippet.id %}">
+                                <i style="color: red;" class="fa-solid fa-trash"></i></a>
+                            </td>
+
                             {# https://docs.djangoproject.com/en/5.0/ref/templates/builtins/#std-templatefilter-date #}
                             <td>{{ snippet.creation_date | date:"Y-m-d H:i:s"}}</td>
+                            
+                            <td>
+                                <form action="{% url "snippet-delete" snippet.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

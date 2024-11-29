@@ -18,8 +18,3 @@ class SnippetForm(ModelForm):
         if len(snippet_name) > 3:
             return snippet_name
         raise ValidationError("snippet name too short")
-
-
-
-
-

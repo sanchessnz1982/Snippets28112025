@@ -25,18 +25,19 @@ def add_snippet_page(request):
     if request.method == "POST":
         form = SnippetForm(request.POST)
         if form.is_valid():
-            form.save()
+            snippet = form.save(commit=False)
+            if request.user.is_authenticated:
+                snippet.user = request.user
+                snippet.save()
             return redirect("snippets-list")  # GET /snippets/list
         return render(request, "pages/add_snippet.html", {'form': form})
 
 
 def snippets_page(request):
     snippets = Snippet.objects.all()
-    count_rec = len(snippets)
     context = {
         'pagename': 'Просмотр сниппетов',
-        'snippets': snippets,
-        'count_rec': count_rec
+        'snippets': snippets
     }
     return render(request, 'pages/view_snippets.html', context)
 

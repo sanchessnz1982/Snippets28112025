@@ -12,7 +12,7 @@
 
         <div class="row">
             <div class="col">
-
+                {% if type == "view" %}
                 <fieldset disabled>
                     <div class="row disabled">
                         <div class="col col-8">
@@ -33,7 +33,28 @@
                         </div>
                     </div>
                  </fieldset>
-
+                {% else %}
+                 <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col col-8">
+                            Название: <input type="text" name="name" value="{{ snippet.name }}" class="form-control">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <div class="p-2 h-100" style="border:1px solid #ced4da; border-radius:5px;">
+                                <textarea name="code">
+                                    {{ snippet.code }}
+                                </textarea>                
+                            </div>                
+                        </div>
+                    </div>
+                    <br>
+                    <button type='submit' class="btn btn-primary btn-block">Обновить</button>
+                </form>
+                {% endif %}
             </div>
         </div>
     </div>
